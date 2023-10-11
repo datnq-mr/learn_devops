@@ -1,0 +1,25 @@
+docker run -itd \
+	--name mongo \
+	-e MONGO_INITDB_ROOT_USERNAME=admin \
+	-e MONGO_INITDB_ROOT_PASSWORD=VRuAd2Nvmp4ELHh5 \
+	-e MONGO_INITDB_DATABASE=test \
+	-v /home/dat/docker/bind_mount:/data/db \
+	mongo:6-jammy
+
+docker run -itd \
+	--name mongo \
+	-e MONGO_INITDB_ROOT_USERNAME=admin \
+	-e MONGO_INITDB_ROOT_PASSWORD=VRuAd2Nvmp4ELHh5 \
+	-e MONGO_INITDB_DATABASE=test \
+	-v mongo-data:/data/db \
+	mongo:6-jammy
+
+docker run -itd \
+	--name mysql-exist \
+	-e MYSQL_ROOT_PASSWORD=admin123 \
+	-e MYSQL_DATABASE=bigstore \
+	-v /home/dat/docker-test/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql \
+	-v bigstore_db:/var/lib/mysql \
+	mysql:5.6
+docker container exec -it mysql-exist /bin/bash
+cat /docker-entrypoint-initdb.d/init.sql
