@@ -1,0 +1,34 @@
+docker run -d  --name my-calculator -p 3000:3000 orezfu/calculator:v1
+
+docker run -d --name my-java-app -p 8000:8080 orezfu/java-app:v1
+
+docker run -itd \
+	-p 13336:3306 \
+	--name mysql-tech \
+	-v data_mysql_tech:/var/lib/mysql \
+	-e MYSQL_ROOT_PASSWORD=mypassword \
+	-e MYSQL_DATABASE=mydata \
+	-e MYSQL_USER=myuser \
+	-e MYSQL_PASSWORD=mypass \
+	mysql:5.7
+
+docker exec -it mysql-tech bash
+
+mysql -u myuser -p
+
+show databases;
+
+#To stop the MySQL Server container we have created, use this command:
+docker stop mysql-tech
+
+#To start the MySQL Server container again:
+docker start mysql-tech
+
+
+#To delete the MySQL container, stop it first, and then use the docker rm command:
+docker stop mysql-tech
+
+docker rm mysql-tech
+
+
+
