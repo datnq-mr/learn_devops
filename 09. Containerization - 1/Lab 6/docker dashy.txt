@@ -1,0 +1,9 @@
+docker network create -d bridge dashy-net
+
+docker run -itd \
+	--name my-dashboard \
+	--network dashy-net \
+	-p 4000:80 \
+	--restart=always \
+	-v /home/dat/my-conf.yml/app/public/conf.yml \
+	lissy93/dashy:latest
