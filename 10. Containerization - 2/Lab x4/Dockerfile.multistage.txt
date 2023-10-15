@@ -1,0 +1,41 @@
+git clone https://github.com/handuy/angular-hero
+
+vi Dockerfile.muiltistage
+
+############################################################
+#Sử dụng base image node:13-alpine
+FROM ode:13-alpine AS builder
+
+#Thiết lập WORKDIR tại thư mục /app
+WORKDIR /app
+
+#Copy file package.json vào image
+COPY package.json /app/
+
+#Sau đó chạy lệnh cài đặt các package ứng dụng cần: npm install
+RUN npm install
+
+#Copy các file và thư mục của source code vào image,
+COPY . /app/
+
+#Sau đó chạy lệnh build ứng dụng: npm run build
+RUN npm run build
+
+#• Sử dụng base image nginx:1.17-alpine
+FROM nginx:1.17-alpine
+
+#• Copy thư mục /app/dist được tạo ra từ stage 1 vào thư mục /usr/share/nginx/html
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+#Khai báo thông tin cổng hoạt động của ứng dụng: 80
+EXPOSE 80
+
+#Chỉ thị CMD: CMD ["nginx", "-g", "daemon off;"]
+CMD ["nginx", "-g", "daemon off;"]
+
+############################################################
+docker build -t angular-hero:v1 -f Dockerfile.multistage .
+
+############################################################
+docker run -itd --name angular-app -p 8001:80 angular-hero:v1
+

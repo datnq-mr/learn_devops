@@ -1,0 +1,4 @@
+docker run -itd\
+	--name java-hello \
+	-p 10088:8080 \
+	java-app:v1
