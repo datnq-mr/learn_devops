@@ -1,14 +1,19 @@
+git clone https://github.com/thinhbui311/docker_flask
+
+cd docker_flask
+
+vi requirements.txt
+
+
+
+###################################################################################
+vi Dockerfile
+
 #Sử dụng parent image python:3.9-slim-buster
 FROM python:3.9
 
 #Thiết lập working directroy là /app
 WORKDIR /app
-
-git clone https://github.com/thinhbui311/docker_flask
-
-###################################################################################
-
-vi Dockerfile
 
 #Bạn sẽ cần copy tệp tin requirements.txt vào trong image
 COPY requirements.txt /app/
