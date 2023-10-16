@@ -1,0 +1,37 @@
+#Sử dụng parent image python:3.9-slim-buster
+FROM python:3.9
+
+#Thiết lập working directroy là /app
+WORKDIR /app
+
+git clone https://github.com/thinhbui311/docker_flask
+
+###################################################################################
+
+vi Dockerfile
+
+#Bạn sẽ cần copy tệp tin requirements.txt vào trong image
+COPY requirements.txt /app/
+
+#Sau đó cài đặt các thư viện bằng command sau: pip install -r requirements.txt
+RUN pip install -r requirements.txt
+
+#Tiếp tục, copy source code vào trong image
+COPY . /app
+
+#Khai báo thông tin port 5000 cho ứng dụng
+EXPOSE 5000
+
+#Ứng dụng cần có một biến môi trường FLASK_APP có giá trị là tên của file python: hello_flask.py
+ENV FLASK_APP=hello_flask.py
+
+#Command để khởi chạy app: flask run --host 0.0.0.0
+ENTRYPOINT [ "flask", "run", "--host", "0.0.0.0" ]
+
+###################################################################################
+
+docker build -t oofwaymaster/my_flask:1.0 -f Dockerfile .
+
+docker run -itd --name flask -p 5000:5000 oofwaymaster/my_flask:1.0
+
+curl localhost:5000/hello
