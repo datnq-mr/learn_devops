@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  # tên của deployment
+  name: cafe
+spec:
+  # số POD tạo ra là 2
+  replicas: 2
+
+  # thiết lập các POD do deploy quản lý, là POD có nhãn  "app=datapp"
+  selector:
+    matchLabels:
+      app: cafe
+
+  # Định nghĩa mẫu POD, khi cần Deploy sử dụng mẫu này để tạo Pod
+  template:
+    metadata:
+      labels:
+        app: cafe
+    spec:
+      containers:
+      - name: cafe
+        image: oogwaymaster/nginx-cafe:v1
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
