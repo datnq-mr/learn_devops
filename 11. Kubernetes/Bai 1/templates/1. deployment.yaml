@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  # tên của deployment
+  name: dat-app
+spec:
+  # số POD tạo ra là 2
+  replicas: 2
+
+  # thiết lập các POD do deploy quản lý, là POD có nhãn  "app=datapp"
+  selector:
+    matchLabels:
+      app: dat-app
+
+  # Định nghĩa mẫu POD, khi cần Deploy sử dụng mẫu này để tạo Pod
+  template:
+    metadata:
+      labels:
+        app: dat-app
+    spec:
+      containers:
+      - name: nginx-app
+        image: nginx
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
